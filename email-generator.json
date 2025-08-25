@@ -1,0 +1,151 @@
+{
+  "name": "email-generator",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        -128
+      ],
+      "id": "e15356b0-94ba-4002-abda-33365e65f4ed",
+      "name": "When chat message received",
+      "webhookId": "725a2161-cf62-4abb-a2cc-ee7f16415e66"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You ar“Hi, I’d like to book an appointment to discuss the new website redesign. I want to finalize the layout and get your approval.”\n\n“Can we schedule a meeting next week? The reason is to go over the quarterly sales report and take action on improving weak areas.”\n\n“Hello, I need some time with you to review the service contract. My main goal is to confirm terms and sign it.”\n\n“I’d like to book a call to talk about the mobile app demo. After the session, I’d like to decide whether we move to development.”\n\n“Can we meet tomorrow? I want to clarify the project requirements so we can lock the timeline.”\n\n“I’d like to set up an appointment for budget planning. The action I need is to finalize numbers for the next quarter.”\n\n“Could we arrange a session this week to go through the marketing strategy? I’d like us to assign roles and responsibilities.”\n\n“Hi, I want to book a meeting to discuss the issues we’re facing with delivery. I expect to find solutions and improve the workflow.”\n\n“Let’s schedule a quick call. The reason is to review client feedback, and the action is to prepare an updated proposal.”\n\n“I’d like to meet for a product training session. My goal is to make sure my team understands how to use the software.”e a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -128
+      ],
+      "id": "113e12fb-a67f-4cdb-bda9-210edac404ac",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -192,
+        80
+      ],
+      "id": "39d5e705-6c7f-4e89-8170-dd3ee0dca754",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "zYZi9aVa4xdxpnb7",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        80
+      ],
+      "id": "ea5b040e-1474-4194-a253-a111fb144d25",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "sendTo": "mohan.m11a2@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        112,
+        80
+      ],
+      "id": "7ee14257-19aa-468e-8a7c-dc1783ff60a4",
+      "name": "Send a message in Gmail",
+      "webhookId": "a513d86e-6b57-4a1c-913d-9924e2060235",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hcgPHh1wqRTgbYlR",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7883b2a5-d80d-45fb-b59c-fffa9781508f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b8bc8c38aa2154a0307068c5634964840033952b6a4603b496996dcc22b03d03"
+  },
+  "id": "x60nigobdVm0T7ov",
+  "tags": []
+}
